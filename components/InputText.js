@@ -13,7 +13,7 @@ export default function InputText({ label, initialValue, onChange, stylest, type
       style={{
         display: "flex",
         flexDirection: "column",
-        maxWidth: "400px",
+        maxWidth: "700px",
         minHeight: "60px",
         padding: "10px",
         gap: "5px",
@@ -21,7 +21,7 @@ export default function InputText({ label, initialValue, onChange, stylest, type
       }}
     >
       <Text h4 css={{
-            color: color,
+            textGradient: color,
           }}>{label}</Text>
       <Input
         onChange={(e) => {

@@ -36,57 +36,21 @@ const styles = {
     resize: "none",
   },
   form: {
-    display: "flex",
     width: "100%",
-    flexWrap: "wrap",
     justifyContent: "left",
     alignItems: "center",
+    overflow:'auto',
+    maxHeight:'100%'
   },
   action: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
+    position:'fixed',
+    top:'85vh',
+    right:'100px',
   },
 };
 
 function getColor(depth) {
-  switch (depth) {
-    case 0:
-      return "#007f5f";
-
-    case 1:
-      return "#55a630";
-
-    case 2:
-      return "#aacc00";
-
-    case 3:
-      return "#ffa6c1";
-
-    case 4:
-      return "#56cfe1";
-
-    case 5:
-      return "#72efdd";
-
-    case 6:
-      return "#dddf00";
-
-    case 7:
-      return "#fafaff";
-
-    case 8:
-      return "#f72585";
-
-    case 9:
-      return "#ff570a";
-
-    case 10:
-      return "#ffc857";
-
-    default:
-      return "#fff";
-  }
+  return "45deg, $yellow600 -20%, $red600 100%"
 }
 
 export default function Home() {
@@ -100,7 +64,7 @@ export default function Home() {
       if (propertyType.toString() === "object") {
         depth++;
         return JsonDrawer(
-          amount + 0,
+          amount + 20,
           label === "" ? e : label + "." + e,
           json[e],
           depth
