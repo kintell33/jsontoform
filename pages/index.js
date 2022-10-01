@@ -4,7 +4,7 @@ import InputText from "../components/InputText";
 import { setJson } from "../utils";
 
 const styles = {
-  container: { width: "100%", height:'100%' },
+  container: { width: "100%", height:'100vh' },
   title: {
     display: "flex",
     width: "100%",
@@ -27,13 +27,20 @@ const styles = {
     height: "100%",
   },
   textarea: {
-    height: "500px",
+    height: "100%",
+    borderRadius:'20px',
+    backgroundColor:'#242424',
+    color:'#fafafa',
+    padding:'10px',
+    border:'0px',
+    resize:'none'
+
   },
   form: {
     display: "flex",
     width: "100%",
     flexWrap: "wrap",
-    justifyContent: "center",
+    justifyContent: "left",
     alignItems: "center",
   },
   action: {
@@ -131,14 +138,14 @@ export default function Home() {
           >
             Ingrese su JSON en el siguiente cuadro
           </Text>
-          <Textarea
+          <textarea
+            style={styles.textarea}
             value={dataJson}
             fullWidth={true}
             size={"lg"}
             onChange={(e) => {
               setDataJson(e.target.value);
             }}
-            height={'500px'}
             placeholder="Ingrese aqui el JSON"
           />
           <Button onClick={handleGenerateForm}>Generar formulario</Button>
