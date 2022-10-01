@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input, Text } from "@nextui-org/react";
 
-export default function InputText({ label, initialValue, onChange, stylest }) {
+export default function InputText({ label, initialValue, onChange, stylest, type }) {
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
@@ -26,8 +26,12 @@ export default function InputText({ label, initialValue, onChange, stylest }) {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
+        rounded
+        bordered
         value={value.toString()}
         placeholder={value.toString()}
+        color="primary"
+        type={type}
       ></Input>
     </div>
   );

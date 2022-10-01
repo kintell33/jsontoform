@@ -4,7 +4,7 @@ import InputText from "../components/InputText";
 import { setJson } from "../utils";
 
 const styles = {
-  container: { width: "100%", height:'100vh' },
+  container: { width: "100%", height: "100vh" },
   title: {
     display: "flex",
     width: "100%",
@@ -17,7 +17,7 @@ const styles = {
     gap: "50px",
     marginLeft: "50px",
     marginRight: "50px",
-    height:'80%'
+    height: "80%",
   },
   formGenerator: {
     display: "flex",
@@ -28,13 +28,12 @@ const styles = {
   },
   textarea: {
     height: "100%",
-    borderRadius:'20px',
-    backgroundColor:'#242424',
-    color:'#fafafa',
-    padding:'10px',
-    border:'0px',
-    resize:'none'
-
+    borderRadius: "20px",
+    backgroundColor: "#242424",
+    color: "#fafafa",
+    padding: "10px",
+    border: "0px",
+    resize: "none",
   },
   form: {
     display: "flex",
@@ -55,20 +54,32 @@ export default function Home() {
   const [fields, setFields] = useState({});
 
   function JsonDrawer(amount, label, json) {
-    console.log(Object.keys(json));
     return Object.keys(json).map((e, i) => {
-      console.log("keys", json);
       const propertyType = typeof json[e];
+
       if (propertyType.toString() === "object") {
-        return (
-            JsonDrawer(
-              amount + 0,
-              label === "" ? e : label + "." + e,
-              json[e]
-            )
+        return JsonDrawer(
+          amount + 0,
+          label === "" ? e : label + "." + e,
+          json[e]
         );
       } else {
         const labelText = `${label ? label + "." + e : e}`;
+        const inputType = propertyType === "string" ? "text" : "number";
+
+        function parser(value, type) {
+          console.log("parser", value, type);
+          switch (type) {
+            case "string":
+              return value.toString();
+
+            case "number":
+              return value.includes('.') ? parseFloat(value.toString()) : parseInt(value.toString());
+
+            default:
+              return value;
+          }
+        }
 
         return (
           <InputText
@@ -77,10 +88,16 @@ export default function Home() {
             label={labelText}
             initialValue={json[e]}
             onChange={(value) => {
-              const jsonTemp = setJson(fields, labelText, value);
+              const jsonTemp = setJson(
+                fields,
+                labelText,
+                parser(value, inputType)
+              );
               setFields(jsonTemp);
               setDataJson(JSON.stringify(jsonTemp, null, 2));
+              console.log('changing json', typeof parser(value, inputType));
             }}
+            type={inputType}
           ></InputText>
         );
       }
@@ -113,7 +130,7 @@ export default function Home() {
           }}
           weight="bold"
         >
-          to
+          2
         </Text>
         <Text
           h1
@@ -141,7 +158,6 @@ export default function Home() {
           <textarea
             style={styles.textarea}
             value={dataJson}
-            fullWidth={true}
             size={"lg"}
             onChange={(e) => {
               setDataJson(e.target.value);
