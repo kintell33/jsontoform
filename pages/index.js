@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Button, Textarea, Text } from "@nextui-org/react";
+import { Button, Text, User, Loading } from "@nextui-org/react";
 import InputText from "../components/InputText";
 import { setJson } from "../utils";
+import Link from "next/link";
 
 const styles = {
   container: { width: "100%", height: "100vh" },
@@ -10,6 +11,13 @@ const styles = {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  loading: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
   },
   containerGroup: {
     display: "flex",
@@ -39,25 +47,44 @@ const styles = {
     width: "100%",
     justifyContent: "left",
     alignItems: "center",
-    overflow:'auto',
-    maxHeight:'100%'
+    overflow: "auto",
+    maxHeight: "100%",
+    paddingLeft:'10px'
   },
   action: {
-    position:'fixed',
-    top:'85vh',
-    right:'100px',
+    position: "fixed",
+    top: "85vh",
+    right: "100px",
+  },
+  footer: {
+    position: "fixed",
+    top: "94vh",
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   },
 };
 
 function getColor(depth) {
-  return "45deg, $yellow600 -20%, $red600 100%"
+  return "45deg, $yellow600 -20%, $red600 100%";
 }
 
 export default function Home() {
   const [dataJson, setDataJson] = useState("");
-  const [fields, setFields] = useState({});
+  const [fields, setFields] = useState(null);
 
   function JsonDrawer(amount, label, json, depth) {
+    if (!fields)
+      return (
+        <Loading
+          style={styles.loading}
+          color="secondary"
+          textColor="secondary"
+          size="xl"
+        >
+          Waiting for your JSON
+        </Loading>
+      );
     return Object.keys(json).map((e, i) => {
       const propertyType = typeof json[e];
 
@@ -111,9 +138,21 @@ export default function Home() {
     });
   }
 
+  function isJsonString(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   function handleGenerateForm() {
-    setFields(JSON.parse(dataJson));
-    setDataJson(JSON.stringify(JSON.parse(dataJson), null, 2));
+    if (isJsonString(dataJson)) {
+      setFields(JSON.parse(dataJson));
+      setDataJson(JSON.stringify(JSON.parse(dataJson), null, 2));
+    } else {
+    }
   }
 
   return (
@@ -160,7 +199,7 @@ export default function Home() {
             }}
             weight="bold"
           >
-            Ingrese su JSON en el siguiente cuadro
+            Insert your JSON in the text area
           </Text>
           <textarea
             style={styles.textarea}
@@ -169,22 +208,42 @@ export default function Home() {
             onChange={(e) => {
               setDataJson(e.target.value);
             }}
-            placeholder="Ingrese aqui el JSON"
+            placeholder='{"name":"","lastname":"","age":30}'
           />
-          <Button onClick={handleGenerateForm}>Generar formulario</Button>
+
+          <Button size="lg" shadow color="primary" disabled={!isJsonString(dataJson)} onClick={handleGenerateForm}>
+            {isJsonString(dataJson) ? 'Generate form' : 'Invalid JSON for now'}
+          </Button>
         </div>
         <div style={styles.form}>
           {JsonDrawer(0, "", fields, 0)}
           <div style={styles.action}>
-            <Button
-              onClick={() => {
-                navigator.clipboard.writeText(JSON.stringify(fields));
-              }}
-            >
-              Copiar al portapapeles
-            </Button>
+            {fields && (
+              <Button
+                shadow
+                color="secondary"
+                size="lg"
+                onClick={() => {
+                  navigator.clipboard.writeText(JSON.stringify(fields,null,2));
+                }}
+              >
+                Copiar al portapapeles
+              </Button>
+            )}
           </div>
         </div>
+      </div>
+      <div style={styles.footer}>
+        <Link href="https://github.com/kintell33">
+          <a target="_blank">
+            <User
+              bordered
+              color="primary"
+              src="https://avatars.githubusercontent.com/u/5826753?v=4"
+              name="by Kintell33"
+            />
+          </a>
+        </Link>
       </div>
     </div>
   );

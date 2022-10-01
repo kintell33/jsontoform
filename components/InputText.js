@@ -15,9 +15,9 @@ export default function InputText({ label, initialValue, onChange, stylest, type
         flexDirection: "column",
         maxWidth: "700px",
         minHeight: "60px",
-        padding: "10px",
         gap: "5px",
         ...stylest,
+        paddingBottom:'10px'
       }}
     >
       <Text h4 css={{
