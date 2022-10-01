@@ -50,6 +50,7 @@ const styles = {
     overflow: "auto",
     maxHeight: "100%",
     paddingLeft: "10px",
+    paddingTop:'10px'
   },
   action: {
     position: "fixed",
