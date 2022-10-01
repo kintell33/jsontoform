@@ -49,32 +49,75 @@ const styles = {
   },
 };
 
+function getColor(depth) {
+  switch (depth) {
+    case 0:
+      return "#007f5f";
+
+    case 1:
+      return "#55a630";
+
+    case 2:
+      return "#aacc00";
+
+    case 3:
+      return "#ffa6c1";
+
+    case 4:
+      return "#56cfe1";
+
+    case 5:
+      return "#72efdd";
+
+    case 6:
+      return "#dddf00";
+
+    case 7:
+      return "#fafaff";
+
+    case 8:
+      return "#f72585";
+
+    case 9:
+      return "#ff570a";
+
+    case 10:
+      return "#ffc857";
+
+    default:
+      return "#fff";
+  }
+}
+
 export default function Home() {
   const [dataJson, setDataJson] = useState("");
   const [fields, setFields] = useState({});
 
-  function JsonDrawer(amount, label, json) {
+  function JsonDrawer(amount, label, json, depth) {
     return Object.keys(json).map((e, i) => {
       const propertyType = typeof json[e];
 
       if (propertyType.toString() === "object") {
+        depth++;
         return JsonDrawer(
           amount + 0,
           label === "" ? e : label + "." + e,
-          json[e]
+          json[e],
+          depth
         );
       } else {
         const labelText = `${label ? label + "." + e : e}`;
         const inputType = propertyType === "string" ? "text" : "number";
 
         function parser(value, type) {
-          console.log("parser", value, type);
           switch (type) {
             case "string":
               return value.toString();
 
             case "number":
-              return value.includes('.') ? parseFloat(value.toString()) : parseInt(value.toString());
+              return value.includes(".")
+                ? parseFloat(value.toString())
+                : parseInt(value.toString());
 
             default:
               return value;
@@ -95,9 +138,9 @@ export default function Home() {
               );
               setFields(jsonTemp);
               setDataJson(JSON.stringify(jsonTemp, null, 2));
-              console.log('changing json', typeof parser(value, inputType));
             }}
             type={inputType}
+            color={getColor(depth)}
           ></InputText>
         );
       }
@@ -167,7 +210,7 @@ export default function Home() {
           <Button onClick={handleGenerateForm}>Generar formulario</Button>
         </div>
         <div style={styles.form}>
-          {JsonDrawer(0, "", fields)}
+          {JsonDrawer(0, "", fields, 0)}
           <div style={styles.action}>
             <Button
               onClick={() => {

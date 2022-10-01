@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input, Text } from "@nextui-org/react";
 
-export default function InputText({ label, initialValue, onChange, stylest, type }) {
+export default function InputText({ label, initialValue, onChange, stylest, type, color }) {
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
@@ -20,7 +20,9 @@ export default function InputText({ label, initialValue, onChange, stylest, type
         ...stylest,
       }}
     >
-      <Text>{label}</Text>
+      <Text h4 css={{
+            color: color,
+          }}>{label}</Text>
       <Input
         onChange={(e) => {
           setValue(e.target.value);
