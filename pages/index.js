@@ -3,6 +3,7 @@ import { Button, Text, User, Loading, Switch } from "@nextui-org/react";
 import InputText from "../components/InputText";
 import { setJson } from "../utils";
 import Link from "next/link";
+import stylesCss from '../styles/Home.module.css';
 
 const styles = {
   container: { width: "100%", height: "100vh" },
@@ -237,7 +238,7 @@ export default function Home() {
           FORM
         </Text>
       </div>
-      <div style={styles.containerGroup}>
+      <div className={stylesCss.containerGroup}>
         <div style={styles.formGenerator}>
           <Text
             h2
