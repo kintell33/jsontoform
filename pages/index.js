@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Text, User, Loading } from "@nextui-org/react";
+import { Button, Text, User, Loading, Switch } from "@nextui-org/react";
 import InputText from "../components/InputText";
 import { setJson } from "../utils";
 import Link from "next/link";
@@ -49,7 +49,7 @@ const styles = {
     alignItems: "center",
     overflow: "auto",
     maxHeight: "100%",
-    paddingLeft:'10px'
+    paddingLeft: "10px",
   },
   action: {
     position: "fixed",
@@ -116,23 +116,70 @@ export default function Home() {
         }
 
         return (
-          <InputText
-            stylest={{ paddingLeft: `${amount}px` }}
-            key={labelText}
-            label={labelText}
-            initialValue={json[e]}
-            onChange={(value) => {
-              const jsonTemp = setJson(
-                fields,
-                labelText,
-                parser(value, inputType)
-              );
-              setFields(jsonTemp);
-              setDataJson(JSON.stringify(jsonTemp, null, 2));
-            }}
-            type={inputType}
-            color={getColor(depth)}
-          ></InputText>
+          <>
+            {propertyType === "boolean" && (
+              <div key={labelText} style={{ paddingLeft: `${amount}px` }}>
+                <Text
+                  h4
+                  css={{
+                    textGradient: getColor(depth),
+                  }}
+                >
+                  {labelText}
+                </Text>
+                <Switch
+                  checked={json[e]}
+                  onChange={(e) => {
+                    const jsonTemp = setJson(
+                      fields,
+                      labelText,
+                      parser(e.target.checked, propertyType)
+                    );
+                    setFields(jsonTemp);
+                    setDataJson(JSON.stringify(jsonTemp, null, 2));
+                  }}
+                ></Switch>
+              </div>
+            )}
+            {propertyType === "string" && (
+              <InputText
+                stylest={{ paddingLeft: `${amount}px` }}
+                key={labelText}
+                label={labelText}
+                initialValue={json[e]}
+                onChange={(value) => {
+                  const jsonTemp = setJson(
+                    fields,
+                    labelText,
+                    parser(value, inputType)
+                  );
+                  setFields(jsonTemp);
+                  setDataJson(JSON.stringify(jsonTemp, null, 2));
+                }}
+                type={inputType}
+                color={getColor(depth)}
+              ></InputText>
+            )}
+            {propertyType === "number" && (
+              <InputText
+                stylest={{ paddingLeft: `${amount}px` }}
+                key={labelText}
+                label={labelText}
+                initialValue={json[e]}
+                onChange={(value) => {
+                  const jsonTemp = setJson(
+                    fields,
+                    labelText,
+                    parser(value, inputType)
+                  );
+                  setFields(jsonTemp);
+                  setDataJson(JSON.stringify(jsonTemp, null, 2));
+                }}
+                type={inputType}
+                color={getColor(depth)}
+              ></InputText>
+            )}
+          </>
         );
       }
     });
@@ -211,8 +258,14 @@ export default function Home() {
             placeholder='{"name":"","lastname":"","age":30}'
           />
 
-          <Button size="lg" shadow color="primary" disabled={!isJsonString(dataJson)} onClick={handleGenerateForm}>
-            {isJsonString(dataJson) ? 'Generate form' : 'Invalid JSON for now'}
+          <Button
+            size="lg"
+            shadow
+            color="primary"
+            disabled={!isJsonString(dataJson)}
+            onClick={handleGenerateForm}
+          >
+            {isJsonString(dataJson) ? "Generate form" : "Invalid JSON for now"}
           </Button>
         </div>
         <div style={styles.form}>
@@ -224,7 +277,9 @@ export default function Home() {
                 color="secondary"
                 size="lg"
                 onClick={() => {
-                  navigator.clipboard.writeText(JSON.stringify(fields,null,2));
+                  navigator.clipboard.writeText(
+                    JSON.stringify(fields, null, 2)
+                  );
                 }}
               >
                 Copiar al portapapeles
