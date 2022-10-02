@@ -284,7 +284,7 @@ export default function Home() {
                   );
                 }}
               >
-                Copiar al portapapeles
+                Copy to clipboard
               </Button>
             )}
           </div>
