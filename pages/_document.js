@@ -14,7 +14,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>{CssBaseline.flush()}</Head>
+        <Head title='JSON2FORM'>{CssBaseline.flush()}</Head>
         <body>
           <Main />
           <NextScript />
