@@ -15,6 +15,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head title="JSON2FORM">
+          <meta property="og:title" content="JSON2FORM"></meta>
           <meta property="og:url" content="https://www.json2form.com" />{" "}
           <meta
             property="og:description"

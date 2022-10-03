@@ -7,8 +7,24 @@
   height: 80%;
 }
 
+.action {
+  position: fixed;
+  top: 85vh;
+  right: 100px;
+}
+
+.footer {
+  position: fixed;
+  top: 94vh;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 @media (max-width: 700px) {
   .containerGroup {
     flex-direction: column;
   }
+
+
 }
